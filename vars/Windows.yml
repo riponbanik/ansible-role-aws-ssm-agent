@@ -1,0 +1,21 @@
+---
+# Defaults
+installer_path: 'c:\windows\temp\AmazonSSMAgentSetup.exe'
+working_directory: 'c:\windows\temp\'
+download_path: 'https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/windows_amd64/AmazonSSMAgentSetup.exe' 
+arguments: '/install /quiet /norestart'
+aws_ssm_agent_service_name: 'AmazonSSMAgent'
+aws_ssm_agent_path: 'C:\Program Files\Amazon\SSM\amazon-ssm-agent.exe'
+aws_ssm_cloudwatch_config_path: 'C:\Program Files\Amazon\SSM\Plugins\awsCloudWatch'
+aws_ssm_config_template_path: 'cloudwatch_windows.json.j2'
+cloudwatch_monitoring: false
+cloudwatch_namespace: 'Windows/Default'
+cloudwatch_log_group: 'Default-Log-Group'
+
+# Default Log Level
+application_event_log_level: 3
+system_event_log_level: 3
+security_event_log_level: 1
+
+# upgrade
+force_upgrade: no

@@ -1,0 +1,26 @@
+galaxy_info:
+  author: Ripon Banik
+  description: Install and configure AWS SSM Agent
+  company: Lyrics Pvt Ltd
+  license: MIT
+  min_ansible_version: 2.6.0
+
+  platforms:
+  - name: EL
+    versions:
+     - 7
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
+  - name: windows
+    version:
+      - 2012
+      - 2016
+
+  galaxy_tags:
+    - aws
+    - ssm
+    - agent
+
+dependencies: []

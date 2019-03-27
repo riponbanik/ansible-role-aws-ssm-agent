@@ -1,0 +1,2 @@
+url: 'amd64'
+aws_ssm_agent_service_name: 'amazon-ssm-agent'

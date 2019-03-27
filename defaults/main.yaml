@@ -1,0 +1,13 @@
+---
+# proxy
+proxy_host: ''
+proxy_port: ''
+no_proxy: '169.254.169.254'
+proxy_url: ''
+
+# region
+aws_ssm_ec2_region: 'ap-southeast-2'
+
+# cloudwatch plugin
+cloudwatch_monitoring: false
+

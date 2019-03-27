@@ -1,0 +1,8 @@
+---
+- name: restart windows ssmagent
+  win_service: name={{ aws_ssm_agent_service_name }} state=restarted
+  when: ansible_os_family == "windows"
+
+- name: restart ssmagent
+  service: name={{ aws_ssm_agent_service_name }} state=restarted
+  when: ansible_os_family != "windows"
