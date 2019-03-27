@@ -10,8 +10,9 @@ None.
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-```
+
 AWS allows monitoring windows metrics and logs via cloudwatch plugin - disabled by default
+```
 cloudwatch_monitoring: false
 cloudwatch_namespace: 'Windows/Default'
 cloudwatch_log_group: 'Default-Log-Group'
@@ -21,13 +22,13 @@ system_event_log_level: 3
 security_event_log_level: 1
 ```
 
-```
 Prevent download and upgrade of the package if not changed 
+```
 force_upgrade: no
 ```
 
-```
 Allows to use custom cloudwatch template e.g. the following can be put same level as the playbook
+```
 aws_ssm_config_template_path: 'templates/CloudwatchWindowsPlugin.json'
 ```
 
