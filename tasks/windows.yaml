@@ -1,18 +1,4 @@
 ---
-- name: Set custom facts
-  set_fact:
-    proxy_url: "http://{{ proxy_host }}:{{ proxy_port }}"
-    ssm_proxy: "http_proxy={{ proxy_host }}:{{ proxy_port }}"
-  when: proxy_host and proxy_port
-
-- name: Set proxy environment variable
-  debug:
-    msg: "Proxy url: {{ proxy_url }}"
-  environment:
-    http_proxy: '{{ proxy_url }}'
-    https_proxy: '{{ proxy_url }}'
-  when: proxy_url
-
 - name: Assures {{ working_directory }} exists
   tags: install
   win_file: path={{ working_directory }} state=directory
@@ -22,17 +8,8 @@
   win_get_url:
     url: '{{ download_path }}'
     dest: '{{ installer_path }}'
+    proxy_url: '{{ proxy_url | default(omit) }}'
     force: '{{ force_upgrade }}'
-  when: not proxy_url
-
-- name: Push package to server via proxy
-  tags: install
-  win_get_url:
-    url: '{{ download_path }}'
-    dest: '{{ installer_path }}'
-    proxy_url: '{{ proxy_url }}'
-    force: '{{ force_upgrade }}'
-  when: proxy_url
 
 - name: Install Package
   tags: install
@@ -42,7 +19,19 @@
     creates_service: '{{ aws_ssm_agent_service_name }}'
     creates_path: '{{ aws_ssm_agent_path }}'
     register: status
-  when: ansible_distribution_major_version is version('6', '<=')
+  when: aws_ssm_activation_code is not defined and aws_ssm_activation_id is not defined
+
+- name: Install Package with activation
+  tags: 
+    - install
+    - activation
+  win_package:
+    path: '{{ installer_path }}'
+    arguments: '{{ arguments_activation | default(omit) }}'
+    creates_service: '{{ aws_ssm_agent_service_name }}'
+    creates_path: '{{ aws_ssm_agent_path }}'
+    register: status
+  when: aws_ssm_activation_code is defined and aws_ssm_activation_id is defined
 
 - name: Check SSM proxy settings
   tags: configure
@@ -58,14 +47,14 @@
 - name: Configure SSM Proxy
   tags: configure
   script: configure_ssm_proxy.ps1  -proxy_host '{{ proxy_host }}' -proxy_port '{{ proxy_port }}' -no_proxy '{{ no_proxy }}'
-  when: proxy_host and proxy_port and ( ssm_proxy not in ssm_proxy_status.raw_value )
+  when: (ssm_proxy is defined) and ( ssm_proxy not in ssm_proxy_status.raw_value )
 
 - name: Remove SSM Proxy
   win_regedit:
     path: 'HKLM:\SYSTEM\CurrentControlSet\Services\AmazonSSMAgent'
     name: Environment
     state: absent
-  when: ssm_proxy_status.exists and not proxy_host and not proxy_port
+  when: ssm_proxy_status.exists and ssm_proxy is not defined
   tags:
     - remove
     - proxy

@@ -1,5 +1,4 @@
 ---
-
 - name: Check if node is registered
   stat:
     path: /var/lib/amazon/ssm/registration

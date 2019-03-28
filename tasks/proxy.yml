@@ -1,0 +1,14 @@
+---
+- name: Set custom facts
+  set_fact:
+    proxy_url: "http://{{ proxy_host }}:{{ proxy_port }}"
+    ssm_proxy: "http_proxy={{ proxy_host }}:{{ proxy_port }}"
+  when: proxy_host and proxy_port
+
+- name: Set proxy environment variable
+  debug:
+    msg: "Proxy url: {{ proxy_url }}"
+  environment:
+    http_proxy: '{{ proxy_url }}'
+    https_proxy: '{{ proxy_url }}'
+  when: proxy_url

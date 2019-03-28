@@ -3,7 +3,9 @@
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
+- name: Include Proxy Settings.
+  include_tasks: "proxy.yml"
+
 # Setup/install tasks.
 - include_tasks:  '{{ ansible_os_family | lower }}.yaml'
-
 

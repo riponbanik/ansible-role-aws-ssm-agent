@@ -1,5 +1,4 @@
 ---
-# tasks file for aws-ssm
 - name: Get CPU architecture
   command: getconf LONG_BIT
   register: cpu_arch

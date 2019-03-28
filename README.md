@@ -32,6 +32,13 @@ Allows to use custom cloudwatch template e.g. the following can be put same leve
 aws_ssm_config_template_path: 'templates/CloudwatchWindowsPlugin.json'
 ```
 
+Activation for Multi-Accout or On-Prem setup
+```
+aws_ssm_activation_code: 1234567890
+aws_ssm_activation_id: 1234567890
+ws_ssm_ec2_region: ap-southeast-2
+```
+
 ## Dependencies
 
 None.
